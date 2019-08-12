@@ -58,4 +58,19 @@ public class CustomerTest {
         //
         Assert.assertEquals(printForm,result);
     }
+
+    @Test
+    public void should_return_correct_statement_given_customer_has_one_new_release_rental(){
+        //given
+        String printForm = "Rental Record for Jack\n"+"\t卧虎藏龙\t3.0\n"+
+                "Amount owed is 3.0\n"+
+                "You earned 1 frequent renter points";
+        Movie movie = new Movie("卧虎藏龙",1);
+        Rental rental = new Rental(movie,1);
+        customer.addRental(rental);
+        //when
+        String result = customer.statement();
+        //
+        Assert.assertEquals(printForm,result);
+    }
 }

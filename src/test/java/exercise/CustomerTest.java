@@ -155,12 +155,22 @@ public class CustomerTest {
     @Test
     public void should_return_regularstrategy_given_movie_regular_code() {
         //given
-        Movie movie= new Movie("卧虎藏龙", 0);
         RegularStrategy regularStrategy = new RegularStrategy(0);
         //when
-        movie.setPriceCode(0);
+        Movie movie= new Movie("卧虎藏龙", 0);
         RegularStrategy res = (RegularStrategy) movie.getPriceStrategy();
         //then
         Assert.assertEquals(res,regularStrategy);
+    }
+
+    @Test
+    public void should_throw_IllegalArgumentException_given_err_code() {
+        try {
+            //given
+            Movie movie = new Movie("卧虎藏龙", 4);
+        }catch (IllegalArgumentException e){
+            //when+then
+            Assert.assertEquals("no supported priceCode",e.getMessage());
+        }
     }
 }

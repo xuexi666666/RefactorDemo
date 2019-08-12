@@ -43,4 +43,19 @@ public class CustomerTest {
         //
         Assert.assertEquals(printForm,result);
     }
+
+    @Test
+    public void should_return_correct_statement_given_customer_has_one_rental_DayRented_more_than_2(){
+        //given
+        String printForm = "Rental Record for Jack\n"+"\t卧虎藏龙\t3.5\n"+
+                "Amount owed is 3.5\n"+
+                "You earned 1 frequent renter points";
+        Movie movie = new Movie("卧虎藏龙",0);
+        Rental rental = new Rental(movie,3);
+        customer.addRental(rental);
+        //when
+        String result = customer.statement();
+        //
+        Assert.assertEquals(printForm,result);
+    }
 }

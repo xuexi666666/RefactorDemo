@@ -5,7 +5,10 @@ import org.junit.Before;
 import org.junit.Test;
 import rentalstore.Customer;
 import rentalstore.Movie;
+import rentalstore.RegularStrategy;
 import rentalstore.Rental;
+
+import static org.junit.Assert.assertEquals;
 
 public class CustomerTest {
     Customer customer;
@@ -135,5 +138,29 @@ public class CustomerTest {
         Assert.assertEquals(printForm,result);
     }
 
+    @Test
+    public void should_return_correct_html_statement_given_customer_has_rent_one_child_movie_for_4_day() {
+        Movie childrenMovie = new Movie("卧虎藏龙", 2);
+        Rental fourDayRental = new Rental(childrenMovie, 4);
+        customer.addRental(fourDayRental);
 
+        String statement = customer.htmlStatement();
+
+        assertEquals("<H1>Rentals for <EM>Jack</EM></H1><P>\n" +
+                "卧虎藏龙: 3.0<BR>\n" +
+                "<P>You owe<EM>3.0</EM><P>\n" +
+                "On this rental you earned <EM>1</EM> frequent renter points<P>", statement);
+    }
+
+    @Test
+    public void should_return_regularstrategy_given_movie_regular_code() {
+        //given
+        Movie movie= new Movie("卧虎藏龙", 0);
+        RegularStrategy regularStrategy = new RegularStrategy(0);
+        //when
+        movie.setPriceCode(0);
+        RegularStrategy res = (RegularStrategy) movie.getPriceStrategy();
+        //then
+        Assert.assertEquals(res,regularStrategy);
+    }
 }

@@ -6,19 +6,34 @@ public class Movie {
     public static final int NEW_RELEASE = 1;
 
     private String title;
-    private int priceCode;
-
+    private PriceStrategy priceStrategy;
     public Movie(String title, int priceCode) {
         this.title = title;
-        this.priceCode = priceCode;
+        setPriceCode(priceCode);
     }
 
     public int getPriceCode() {
-        return priceCode;
+        return priceStrategy.getPriceCode();
     }
 
     public void setPriceCode(int priceCode) {
-        this.priceCode = priceCode;
+        switch (priceCode){
+            case Movie.REGULAR:
+                this.priceStrategy = new RegularStrategy(priceCode);
+                break;
+            case Movie.CHILDRENS:
+                this.priceStrategy = new ChildrensStrategy(priceCode);
+                break;
+            case Movie.NEW_RELEASE:
+                this.priceStrategy = new NewReleaseStrategy(priceCode);
+                break;
+            default:
+                throw new IllegalArgumentException("no supported priceCode");
+        }
+    }
+
+    public PriceStrategy getPriceStrategy() {
+        return priceStrategy;
     }
 
     public String getTitle() {

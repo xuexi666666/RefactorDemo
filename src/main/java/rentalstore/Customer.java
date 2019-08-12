@@ -1,6 +1,7 @@
 package rentalstore;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 public class Customer {
@@ -20,20 +21,22 @@ public class Customer {
     }
 
     public String statement() {
-        StringBuilder result = new StringBuilder(String.format("Rental Record for %s\n",getName()));
-        for (Rental each : this.rentals) {
-            result.append(String.format("\t%s\t%.1f\n",each.getMovie().getTitle(),each.getAmount()));
-        }
-        result.append(String.format("Amount owed is %.1f\n" ,getTotalAmount()));
-        result.append(String.format("You earned %d frequent renter points",getTotalRenterPoints()));
-        return result.toString();
+        return new TextStatement().statement(this);
     }
 
-    private double getTotalAmount() {
+    public String htmlStatement() {
+        return new HtmlStatement().statement(this);
+    }
+
+    public List<Rental> getRentals() {
+        return rentals;
+    }
+
+    public double getTotalAmount() {
         return rentals.stream().mapToDouble(Rental::getAmount).sum();
     }
 
-    private int getTotalRenterPoints() {
+    public int getTotalRenterPoints() {
         return rentals.stream().mapToInt(Rental::getFrequentRenterPoints).sum();
     }
 

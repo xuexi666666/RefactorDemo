@@ -20,45 +20,23 @@ public class Customer {
     }
 
     public String statement() {
-        double totalAmount = 0;
-        int frequentRenterPoints = 0;
-        String result = "Rental Record for " + getName() + "\n";
+        StringBuilder result = new StringBuilder(String.format("Rental Record for %s\n",getName()));
         for (Rental each : this.rentals) {
-            double thisAmount = 0;
-
-            switch (each.getMovie().getPriceCode()) {
-                case Movie.REGULAR:
-                    thisAmount += 2;
-                    if (each.getDayRented() > 2) {
-                        thisAmount += (each.getDayRented() - 2) * 1.5;
-                    }
-                    break;
-                case Movie.NEW_RELEASE:
-                    thisAmount += each.getDayRented() * 3;
-                    break;
-                case Movie.CHILDRENS:
-                    thisAmount += 1.5;
-                    if (each.getDayRented() > 3) {
-                        thisAmount += (each.getDayRented() - 3) * 1.5;
-                    }
-                    break;
-            }
-
-            //add frequent renter points
-            frequentRenterPoints++;
-            //add bonus for a two day new release rental
-            if ((each.getMovie().getPriceCode() == Movie.NEW_RELEASE) && each.getDayRented() > 1) {
-                frequentRenterPoints++;
-            }
-
-            //show figures for this rental
-            result += "\t" + each.getMovie().getTitle() + "\t" + String.valueOf(thisAmount) + "\n";
-            totalAmount += thisAmount;
+            result.append(String.format("\t%s\t%.1f\n",each.getMovie().getTitle(),each.getAmount()));
         }
-
-        //add footer lines
-        result += "Amount owed is " + String.valueOf(totalAmount) + "\n";
-        result += "You earned " + String.valueOf(frequentRenterPoints) + " frequent renter points";
-        return result;
+        result.append(String.format("Amount owed is %.1f\n" ,getTotalAmount()));
+        result.append(String.format("You earned %d frequent renter points",getTotalRenterPoints()));
+        return result.toString();
     }
+
+    private double getTotalAmount() {
+        return rentals.stream().mapToDouble(Rental::getAmount).sum();
+    }
+
+    private int getTotalRenterPoints() {
+        return rentals.stream().mapToInt(Rental::getFrequentRenterPoints).sum();
+    }
+
+
+
 }

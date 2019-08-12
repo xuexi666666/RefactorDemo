@@ -106,7 +106,7 @@ public class CustomerTest {
         //given
         String printForm = "Rental Record for Jack\n"+"\t卧虎藏龙\t3.0\n"+
                 "Amount owed is 3.0\n"+
-                "You earned 3 frequent renter points";
+                "You earned 1 frequent renter points";
         Movie movie = new Movie("卧虎藏龙",2);
         Rental rental = new Rental(movie,4);
         customer.addRental(rental);

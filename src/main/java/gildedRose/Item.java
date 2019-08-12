@@ -1,5 +1,7 @@
 package gildedRose;
 
+import static gildedRose.ItemStrategyFactory.makeItemStrategy;
+
 public class Item {
     private String name;
     private int sellIn;
@@ -10,6 +12,7 @@ public class Item {
         this.name = name;
         this.sellIn = sellIn;
         this.quality = quality;
+        itemStrategy = makeItemStrategy(name);
     }
 
     public void updateQuality(){

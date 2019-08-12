@@ -1,6 +1,6 @@
 package gildedRose;
 
-public class BackstagePassesStrategy implements ItemStrategy {
+public class BackStagePassesStrategy implements ItemStrategy {
     @Override
     public void update(Item item) {
 

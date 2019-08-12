@@ -8,10 +8,7 @@ import rentalstore.Movie;
 import rentalstore.Rental;
 
 public class CustomerTest {
-
-
     Customer customer;
-
     @Before
     public void init(){
         customer = new Customer("Jack");
@@ -96,11 +93,47 @@ public class CustomerTest {
                 "Amount owed is 1.5\n"+
                 "You earned 1 frequent renter points";
         Movie movie = new Movie("卧虎藏龙",2);
-        Rental rental = new Rental(movie,2);
+        Rental rental = new Rental(movie,3);
         customer.addRental(rental);
         //when
         String result = customer.statement();
         //
         Assert.assertEquals(printForm,result);
     }
+
+    @Test
+    public void should_return_correct_statement_given_customer_has_one_childrens_rental_dayrented_more_than_3(){
+        //given
+        String printForm = "Rental Record for Jack\n"+"\t卧虎藏龙\t3.0\n"+
+                "Amount owed is 3.0\n"+
+                "You earned 3 frequent renter points";
+        Movie movie = new Movie("卧虎藏龙",2);
+        Rental rental = new Rental(movie,4);
+        customer.addRental(rental);
+        //when
+        String result = customer.statement();
+        //
+        Assert.assertEquals(printForm,result);
+    }
+
+    @Test
+    public void should_return_correct_statement_given_customer_has_two_rental(){
+        //given
+
+        String printForm = "Rental Record for Jack\n"+"\t卧虎藏龙\t3.0\n"+"\t变形金刚\t12.0\n"+
+                "Amount owed is 15.0\n"+
+                "You earned 3 frequent renter points";
+        Movie movie1 = new Movie("卧虎藏龙",2);
+        Rental rental1 = new Rental(movie1,4);
+        Movie movie2 = new Movie("变形金刚",1);
+        Rental rental2 = new Rental(movie2,4);
+        customer.addRental(rental1);
+        customer.addRental(rental2);
+        //when
+        String result = customer.statement();
+        //
+        Assert.assertEquals(printForm,result);
+    }
+
+
 }
